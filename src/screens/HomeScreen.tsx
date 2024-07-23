@@ -1,7 +1,10 @@
 import React from 'react';
 import { Button, Layout, Text, Icon, IconElement } from '@ui-kitten/components';
-import { GestureResponderEvent, Image, StyleSheet, View, useColorScheme } from 'react-native';
+import { GestureResponderEvent, Image, StyleSheet, View } from 'react-native';
 import JansouImg from '@assets/jansou.png';
+import styled from 'styled-components/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from 'src/types';
 
 const LightIcon = (props: any): IconElement => (
   <Icon
@@ -24,24 +27,22 @@ const HelpIcon = (props: any): IconElement => (
   />
 )
 
-const HomeScreen = ({ navigation }) => (
-  <Layout style={styles.layout}>
-    <View style={styles.main}>
-      <Text
-        category='h1'
-        style={styles.title}
-      >
+type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Home">
+
+const HomeScreen = ({ navigation, route }: HomeScreenProps) => (
+  <Layout>
+    <Main>
+      <Title category='h1'>
         mahjong vision
-      </Text>
-      <Image
-        style={styles.mainLogo}
+      </Title>
+      <LogoImage
         source={JansouImg}
       />
       <Button>
         4명이 모였나요?
       </Button>
-    </View>
-    <View style={styles.upperButtonView}>
+    </Main>
+    <UpperButtonView>
       <Button
         appearance='ghost'
         accessoryLeft={HelpIcon}
@@ -49,36 +50,33 @@ const HomeScreen = ({ navigation }) => (
           navigation.navigate('Help');
         }}
       />
-    </View>
+    </UpperButtonView>
   </Layout>
 );
 
-const styles = StyleSheet.create({
-  layout: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  upperButtonView: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    padding: 25,
-    position: 'absolute',
-    width: '100%',
-  },
-  main: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-  },
-  mainLogo: {
-    width: 300,
-    height: 300,
-    marginVertical: 30,
-  },
-  title: {
-    paddingBottom: 20,
-  }
-})
+const Main = styled.View`
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
+
+const Title = styled(Text)`
+  padding-bottom: 20px;
+`;
+
+const LogoImage = styled(Image)`
+  width: 300px;
+  height: 300px;
+  margin-vertical: 30px;
+`;
+
+const UpperButtonView = styled.View`
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 25px;
+  position: absolute;
+  width: 100%;
+`;
 
 export default HomeScreen;
