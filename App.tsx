@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HelpScreen from 'src/screens/HelpScreen';
 import { RootStackParamList } from 'src/types';
+import { RiichiMahjongInputScreen } from 'src/screens/RiichiMahjongInputScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -23,6 +24,10 @@ export default () => (
         <Stack.Screen
           name='Help'
           component={HelpScreen}
+        />
+        <Stack.Screen
+          name='RiichiMahjongInput'
+          component={RiichiMahjongInputScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
