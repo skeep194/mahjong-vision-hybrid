@@ -14,9 +14,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HelpScreen from 'src/screens/HelpScreen';
 import {RootStackParamList} from 'src/types';
 import {RiichiMahjongInputScreen} from 'src/screens/RiichiMahjongInputScreen';
-import {InformationScreen} from 'src/screens/InformationInputScreen';
+import {InformationInputScreen} from 'src/screens/InformationInputScreen';
 import {ResultScreen} from 'src/screens/ResultScreen';
-import {LoadingScreen} from 'src/screens/LoadingScreen';
+import LoadingScreen from 'src/screens/LoadingScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -33,7 +33,10 @@ export default () => (
           name="RiichiMahjongInput"
           component={RiichiMahjongInputScreen}
         />
-        <Stack.Screen name="InformationInput" component={InformationScreen} />
+        <Stack.Screen
+          name="InformationInput"
+          component={InformationInputScreen}
+        />
         <Stack.Screen name="Result" component={ResultScreen} />
         <Stack.Screen name="Loading" component={LoadingScreen} />
       </Stack.Navigator>
