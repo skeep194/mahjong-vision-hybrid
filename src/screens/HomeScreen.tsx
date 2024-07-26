@@ -1,43 +1,30 @@
 import React from 'react';
-import { Button, Layout, Text, Icon, IconElement } from '@ui-kitten/components';
-import { GestureResponderEvent, Image, StyleSheet, View } from 'react-native';
+import {Button, Layout, Text, Icon, IconElement} from '@ui-kitten/components';
+import {GestureResponderEvent, Image, StyleSheet, View} from 'react-native';
 import JansouImg from '@assets/jansou.png';
 import styled from 'styled-components/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from 'src/types';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from 'src/types';
 
 const LightIcon = (props: any): IconElement => (
-  <Icon
-    {...props}
-    name='sun-outline'
-  />
-)
+  <Icon {...props} name="sun-outline" />
+);
 
 const DarkIcon = (props: any): IconElement => (
-  <Icon
-    {...props}
-    name='moon-outline'
-  />
-)
+  <Icon {...props} name="moon-outline" />
+);
 
 const HelpIcon = (props: any): IconElement => (
-  <Icon
-    {...props}
-    name='question-mark-circle-outline'
-  />
-)
+  <Icon {...props} name="question-mark-circle-outline" />
+);
 
-type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Home">
+type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-const HomeScreen = ({ navigation, route }: HomeScreenProps) => (
+const HomeScreen = ({navigation, route}: HomeScreenProps) => (
   <Layout>
     <Main>
-      <Title category='h1'>
-        mahjong vision
-      </Title>
-      <LogoImage
-        source={JansouImg}
-      />
+      <Title category="h1">mahjong vision</Title>
+      <LogoImage source={JansouImg} />
       <Button
         onPress={() => {
           navigation.navigate('RiichiMahjongInput');
@@ -47,7 +34,7 @@ const HomeScreen = ({ navigation, route }: HomeScreenProps) => (
     </Main>
     <UpperButtonView>
       <Button
-        appearance='ghost'
+        appearance="ghost"
         accessoryLeft={HelpIcon}
         onPress={(event: GestureResponderEvent) => {
           navigation.navigate('Help');

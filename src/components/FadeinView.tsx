@@ -1,7 +1,7 @@
-import React, { PropsWithChildren, useEffect, useRef } from "react";
-import { Animated, ViewStyle } from "react-native";
+import React, {PropsWithChildren, useEffect, useRef} from 'react';
+import {Animated, ViewStyle} from 'react-native';
 
-type FadeInViewProps = PropsWithChildren<{ style: ViewStyle }>;
+type FadeInViewProps = PropsWithChildren<{style: ViewStyle}>;
 
 export const FadeInView: React.FC<FadeInViewProps> = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0

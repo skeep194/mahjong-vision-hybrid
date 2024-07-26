@@ -1,18 +1,18 @@
-import React, { Children } from "react";
-import { Image, View } from "react-native";
-import styled from "styled-components";
+import React, {Children} from 'react';
+import {Image, View} from 'react-native';
+import styled from 'styled-components';
 
 type HandImageProps = {
   handString: string;
 };
 
 type handImagesType = {
-  [key: string]: NodeRequire[]
-  p: NodeRequire[]
-  s: NodeRequire[]
-  m: NodeRequire[]
-  z: NodeRequire[]
-}
+  [key: string]: NodeRequire[];
+  p: NodeRequire[];
+  s: NodeRequire[];
+  m: NodeRequire[];
+  z: NodeRequire[];
+};
 
 const handImages: handImagesType = {
   p: [
@@ -56,7 +56,7 @@ const handImages: handImagesType = {
     require('@assets/pai/5z.png'),
     require('@assets/pai/6z.png'),
     require('@assets/pai/7z.png'),
-  ]
+  ],
 };
 
 const handStringToImageArray = (hand: string): any[] => {
@@ -71,34 +71,35 @@ const handStringToImageArray = (hand: string): any[] => {
         }
       }
       here = '';
-    }
-    else {
+    } else {
       here += hand[i];
     }
   }
   return result;
-}
+};
 
 /**
  * given string hand to mahjong image component
  * @property {string} handString - represent hand
  * @example 1p2p3p4z
-*/
-export const HandImage = ({ handString }: HandImageProps) => {
+ */
+export const HandImage = ({handString}: HandImageProps) => {
   const data = handStringToImageArray(handString);
-  return <Main>
-    {data.map((item, index) => {
-      return <Hand source={item} key={index} />
-    })}
-  </Main>
-}
+  return (
+    <Main>
+      {data.map((item, index) => {
+        return <Hand source={item} key={index} />;
+      })}
+    </Main>
+  );
+};
 
 const Hand = styled(Image)`
   width: 25px;
   height: 40px;
   margin-vertical: 15px;
-`
+`;
 
 const Main = styled(View)`
   flex-direction: row;
-`
+`;
