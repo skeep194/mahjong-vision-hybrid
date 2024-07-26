@@ -51,7 +51,7 @@ export const RiichiMahjongInputScreen = ({
         handInformationsUpdate(handInformations);
         console.log('need api call implement');
         console.log(`hand informations: ${handInformations}`);
-        navigation.navigate('Loading');
+        navigation.navigate('InformationInput');
       }}>
       완료
     </MarginButton>
