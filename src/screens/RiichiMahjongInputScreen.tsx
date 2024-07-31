@@ -9,11 +9,14 @@ import {
 } from '@ui-kitten/components';
 import React, {useState} from 'react';
 import {Alert, ScrollView, View} from 'react-native';
+import {Riichi} from 'riichi-ts';
 import {FadeInView} from 'src/components/FadeinView';
 import {HandImage} from 'src/components/HandImage';
 import {HandProtocolHelp} from 'src/components/HandProtocolHelp';
 import {RootStackParamList} from 'src/types';
+import {toRiichiArray} from 'src/utils/hand';
 import styled from 'styled-components/native';
+import {handInformation} from './InformationInputScreen';
 
 type RiichiMahjongInputScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -33,6 +36,11 @@ export const RiichiMahjongInputScreen = ({
   route,
 }: RiichiMahjongInputScreenProps) => {
   const [hand, handUpdate] = useState<string>('');
+  /**
+   * huro - each element has 2 element array
+   * [[huroString, UUID]]
+   * UUID is for .map function rendering
+   */
   const [huro, huroUpdate] = useState<string[][]>([]);
   const [dora, doraUpdate] = useState<string>('');
   const [agari, agariUpdate] = useState<string>('');
@@ -51,11 +59,25 @@ export const RiichiMahjongInputScreen = ({
     <MarginButton
       status="success"
       onPress={() => {
-        navigation.navigate('InformationInput');
+        const result: handInformation = new handInformation();
+        result.closedPart = toRiichiArray(hand, maxHand);
+        result.winTile = toRiichiArray(agari, maxAgari)[0];
+        result.dora = toRiichiArray(dora, maxDora);
+        huro.forEach((value: string[]) => {
+          result.openPart.push({
+            tiles: toRiichiArray(value[0], maxHuro),
+            open: value[0][0] === '-',
+          });
+        });
+        navigation.navigate('InformationInput', result);
       }}>
       완료
     </MarginButton>
   );
+  const maxHand = 13;
+  const maxHuro = 4;
+  const maxDora = 10;
+  const maxAgari = 1;
 
   return (
     <Main>
@@ -69,7 +91,7 @@ export const RiichiMahjongInputScreen = ({
             }}
           />
         </HandView>
-        <HandImage handString={hand} />
+        <HandImage data={toRiichiArray(hand, maxHand)} />
         {inputLevel >= 1 && (
           <HandView>
             <Text>후로패</Text>
@@ -94,7 +116,10 @@ export const RiichiMahjongInputScreen = ({
                     }}
                   />
                 </FadeInView>
-                <HandImage handString={value[0]} />
+                <HandImage
+                  data={toRiichiArray(value[0], maxHuro)}
+                  ankkang={value[0][0] === '-'}
+                />
               </View>
             ))}
           </HandView>
@@ -121,7 +146,7 @@ export const RiichiMahjongInputScreen = ({
                 }}
               />
             </FadeInView>
-            <HandImage handString={dora} />
+            <HandImage data={toRiichiArray(dora, maxDora)} />
           </HandView>
         )}
         {inputLevel >= 3 && (
@@ -135,7 +160,7 @@ export const RiichiMahjongInputScreen = ({
                 }}
               />
             </FadeInView>
-            <HandImage handString={agari} />
+            <HandImage data={toRiichiArray(agari, maxAgari)} />
           </HandView>
         )}
         {inputLevel === 3 ? <CompleteButton /> : <NextButton />}
