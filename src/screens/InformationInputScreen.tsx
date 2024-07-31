@@ -10,9 +10,10 @@ import {
 } from '@ui-kitten/components';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from 'src/types';
-import {styled} from 'styled-components';
+import {styled} from 'styled-components/native';
 import InformationInputImg from '@assets/information_input.png';
-import {Image, ScrollView} from 'react-native';
+import {Image, ScrollView, View} from 'react-native';
+import {useForm} from 'react-hook-form';
 
 type InformationInputScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -34,41 +35,50 @@ export class handInformation {
 
 type MahjongInformation = {
   hand: handInformation;
-  winMethod?: 'tsumo' | 'ron';
+  winMethod: 'tsumo' | 'ron';
   /**
    * @value 0 - not riichi
    * @value 1 - riichi
    * @value 2 - double riichi
    */
-  riichi?: 0 | 1 | 2;
-  ippatsu?: boolean;
+  riichi: 0 | 1 | 2;
+  ippatsu: boolean;
   /**
    * @value 27 - east
    * @value 28 - south
    * @value 29 - west
    * @value 30 - north
    */
-  seatWind?: 27 | 28 | 29 | 30;
+  seatWind: 27 | 28 | 29 | 30;
   /**
    * @value 27 - east
    * @value 28 - south
    * @value 29 - west
    * @value 30 - north
    */
-  roundWind?: 27 | 28 | 29 | 30;
-  specialAgari?: 'after_kkang' | 'haitei' | 'none';
+  roundWind: 27 | 28 | 29 | 30;
+  specialAgari: 'after_kkang' | 'haitei' | 'none';
   /**
    * count of aka dora
    */
-  aka?: number;
+  aka: number;
 };
 
 export const InformationInputScreen = ({
   navigation,
   route,
 }: InformationInputScreenProps) => {
-  const [information, setInformation] = useState<MahjongInformation>({
-    hand: route.params,
+  const {
+    setValue,
+    register,
+    handleSubmit,
+    watch,
+    formState: {errors},
+  } = useForm<MahjongInformation>({
+    defaultValues: {
+      hand: route.params,
+      aka: 0,
+    },
   });
   return (
     <Main>
@@ -87,10 +97,9 @@ export const InformationInputScreen = ({
         </HorizontalRadioGroup>
         <CheckBox
           style={{marginBottom: 10}}
-          checked={information.ippatsu}
+          checked={watch('ippatsu')}
           onChange={nextChecked => {
-            information.ippatsu = nextChecked;
-            setInformation({...information});
+            setValue('ippatsu', nextChecked);
           }}>
           일발
         </CheckBox>
@@ -115,8 +124,16 @@ export const InformationInputScreen = ({
           <Radio>없음</Radio>
         </HorizontalRadioGroup>
         <Text>아카도라(개수)</Text>
-
-        <Button status="success">완료</Button>
+        <CountAkadoraView>
+          <Button>+</Button>
+          <Text>{watch('aka')}</Text>
+          <Button>-</Button>
+        </CountAkadoraView>
+        <Button
+          status="success"
+          onPress={handleSubmit(data => console.log(data))}>
+          완료
+        </Button>
       </ScrollView>
     </Main>
   );
@@ -135,4 +152,10 @@ const LogoImage = styled(Image)`
 const HorizontalRadioGroup = styled(RadioGroup)`
   flex-direction: row;
   margin-bottom: 10px;
+`;
+
+const CountAkadoraView = styled.View`
+  margin-vertical: 10px;
+  flex-direction: row;
+  align-items: center;
 `;
