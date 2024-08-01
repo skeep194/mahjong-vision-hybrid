@@ -14,7 +14,6 @@ import {RootStackParamList} from 'src/types';
 import {styled} from 'styled-components/native';
 import InformationInputImg from '@assets/information_input.png';
 import {GestureResponderEvent, Image, ScrollView, View} from 'react-native';
-import {Controller, useForm} from 'react-hook-form';
 import {Formik} from 'formik';
 import {Riichi} from 'riichi-ts';
 
