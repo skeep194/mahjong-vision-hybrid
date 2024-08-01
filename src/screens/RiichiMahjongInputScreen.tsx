@@ -16,7 +16,7 @@ import {HandProtocolHelp} from 'src/components/HandProtocolHelp';
 import {RootStackParamList} from 'src/types';
 import {toRiichiArray} from 'src/utils/hand';
 import styled from 'styled-components/native';
-import {handInformation} from './InformationInputScreen';
+import {HandInformation} from './InformationInputScreen';
 
 type RiichiMahjongInputScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -59,7 +59,7 @@ export const RiichiMahjongInputScreen = ({
     <MarginButton
       status="success"
       onPress={() => {
-        const result: handInformation = new handInformation();
+        const result: HandInformation = new HandInformation();
         result.closedPart = toRiichiArray(hand, maxHand);
         result.winTile = toRiichiArray(agari, maxAgari)[0];
         result.dora = toRiichiArray(dora, maxDora);
