@@ -215,8 +215,9 @@ const Main = styled(Layout)`
 `;
 
 const LogoImage = styled(Image)`
-  width: 100%;
-  max-height: 300px;
+  width: 50%;
+  max-height: 200px;
+  align-self: center;
 `;
 
 const HorizontalRadioGroup = styled(RadioGroup)`

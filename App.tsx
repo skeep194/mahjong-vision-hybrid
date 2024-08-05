@@ -27,7 +27,13 @@ export default () => (
     <IconRegistry icons={EvaIconsPack} />
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen name="Help" component={HelpScreen} />
         <Stack.Screen
           name="RiichiMahjongInput"
@@ -37,7 +43,13 @@ export default () => (
           name="InformationInput"
           component={InformationInputScreen}
         />
-        <Stack.Screen name="Result" component={ResultScreen} />
+        <Stack.Screen
+          name="Result"
+          component={ResultScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen name="Loading" component={LoadingScreen} />
       </Stack.Navigator>
     </NavigationContainer>
