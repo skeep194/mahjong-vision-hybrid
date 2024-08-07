@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import * as Yup from 'yup';
 import {
   Button,
   ButtonGroup,
@@ -16,6 +17,7 @@ import InformationInputImg from '@assets/information_input.png';
 import {GestureResponderEvent, Image, ScrollView, View} from 'react-native';
 import {Formik} from 'formik';
 import {Riichi} from 'riichi-ts';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
 type InformationInputScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -81,6 +83,22 @@ class MahjongInformation {
   aka: number;
 }
 
+const InformationSchema = Yup.object().shape({
+  winMethod: Yup.number().required('화료 방법을 선택해주세요'),
+  riichi: Yup.number().required('리치 여부를 선택해주세요'),
+  seatWind: Yup.number().required('자풍패를 선택해주세요'),
+  roundWind: Yup.number().required('장풍패를 선택해주세요'),
+});
+
+const errorToast = (message?: string) => {
+  if (message) {
+    Toast.show({
+      type: 'error',
+      text1: message,
+    });
+  }
+};
+
 export const InformationInputScreen = ({
   navigation,
   route,
@@ -116,8 +134,9 @@ export const InformationInputScreen = ({
               false,
             );
             navigation.navigate('Result', result.calc());
-          }}>
-          {({setFieldValue, values, handleSubmit}) => (
+          }}
+          validationSchema={InformationSchema}>
+          {({setFieldValue, values, handleSubmit, errors, validateForm}) => (
             <>
               <Text>화료 방법</Text>
               <HorizontalRadioGroup
@@ -198,7 +217,13 @@ export const InformationInputScreen = ({
               </CountAkadoraView>
               <Button
                 status="success"
-                onPress={handleSubmit as (e?: GestureResponderEvent) => void}>
+                onPress={() => {
+                  errorToast(errors.roundWind);
+                  errorToast(errors.seatWind);
+                  errorToast(errors.riichi);
+                  errorToast(errors.winMethod);
+                  handleSubmit();
+                }}>
                 완료
               </Button>
             </>
