@@ -19,6 +19,7 @@ import {Formik} from 'formik';
 import {Riichi} from 'riichi-ts';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {countFive} from 'src/utils/hand';
+import {errorToast} from 'src/utils/toast';
 
 type InformationInputScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -90,15 +91,6 @@ const InformationSchema = Yup.object().shape({
   seatWind: Yup.number().required('자풍패를 선택해주세요'),
   roundWind: Yup.number().required('장풍패를 선택해주세요'),
 });
-
-const errorToast = (message?: string) => {
-  if (message) {
-    Toast.show({
-      type: 'error',
-      text1: message,
-    });
-  }
-};
 
 export const InformationInputScreen = ({
   navigation,
