@@ -35,3 +35,23 @@ export const toRiichiArray = (hand: string, maxLength?: number): number[] => {
   }
   return result.slice(0, maxLength);
 };
+
+/**
+ * count total 5m, 5s, 5p
+ * @param hand - RiichiArray of hand
+ * @returns number - 3 bit number represents exist 5m, 5s, 5p
+ * @example when 5s, 5p are exist, result is 011
+ */
+export const countFive = (hand: number[]): number => {
+  let result = 0;
+  hand.forEach((value: number) => {
+    if (value === 4) {
+      result |= 1 << 2;
+    } else if (value === 13) {
+      result |= 1 << 1;
+    } else if (value === 22) {
+      result |= 1 << 0;
+    }
+  });
+  return result;
+};

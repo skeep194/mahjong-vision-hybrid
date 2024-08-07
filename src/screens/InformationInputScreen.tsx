@@ -18,6 +18,7 @@ import {GestureResponderEvent, Image, ScrollView, View} from 'react-native';
 import {Formik} from 'formik';
 import {Riichi} from 'riichi-ts';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import {countFive} from 'src/utils/hand';
 
 type InformationInputScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -103,6 +104,18 @@ export const InformationInputScreen = ({
   navigation,
   route,
 }: InformationInputScreenProps) => {
+  let maxAkaBit =
+    countFive(route.params.closedPart) | countFive([route.params.winTile]);
+  route.params.openPart.forEach(value => {
+    maxAkaBit |= countFive(value.tiles);
+  });
+  let maxAka = 0;
+  while (maxAkaBit > 0) {
+    if (maxAkaBit % 2 === 1) {
+      maxAka += 1;
+    }
+    maxAkaBit = Math.floor(maxAkaBit / 2);
+  }
   return (
     <Main>
       <ScrollView>
@@ -211,7 +224,7 @@ export const InformationInputScreen = ({
                   accessoryLeft={<Icon name="plus-outline" />}
                   appearance="ghost"
                   onPress={() => {
-                    setFieldValue('aka', Math.min(3, values.aka + 1));
+                    setFieldValue('aka', Math.min(maxAka, values.aka + 1));
                   }}
                 />
               </CountAkadoraView>
