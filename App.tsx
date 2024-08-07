@@ -16,6 +16,7 @@ import {RootStackParamList} from 'src/types';
 import {RiichiMahjongInputScreen} from 'src/screens/RiichiMahjongInputScreen';
 import {InformationInputScreen} from 'src/screens/InformationInputScreen';
 import {ResultScreen} from 'src/screens/ResultScreen';
+import {ResultFailScreen} from 'src/screens/ResultFailScreen';
 import LoadingScreen from 'src/screens/LoadingScreen';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
@@ -47,6 +48,13 @@ export default () => (
         <Stack.Screen
           name="Result"
           component={ResultScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ResultFail"
+          component={ResultFailScreen}
           options={{
             headerShown: false,
           }}

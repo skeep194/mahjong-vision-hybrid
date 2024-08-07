@@ -7,6 +7,7 @@ export type RootStackParamList = {
   RiichiMahjongInput: undefined;
   InformationInput: HandInformation;
   Result: RiichiResult;
+  ResultFail: undefined;
   Loading: undefined;
 };
 

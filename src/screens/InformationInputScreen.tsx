@@ -138,10 +138,16 @@ export const InformationInputScreen = ({
               true,
               false,
             );
-            navigation.navigate('Result', result.calc());
+            const calc = result.calc();
+            if (calc.error) {
+              navigation.navigate('ResultFail');
+            } else {
+              navigation.navigate('Result', calc);
+            }
           }}
-          validationSchema={InformationSchema}>
-          {({setFieldValue, values, handleSubmit, errors, validateForm}) => (
+          validationSchema={InformationSchema}
+          validateOnMount={true}>
+          {({setFieldValue, values, errors, submitForm}) => (
             <>
               <Text>화료 방법</Text>
               <HorizontalRadioGroup
@@ -227,7 +233,7 @@ export const InformationInputScreen = ({
                   errorToast(errors.seatWind);
                   errorToast(errors.riichi);
                   errorToast(errors.winMethod);
-                  handleSubmit();
+                  submitForm();
                 }}>
                 완료
               </Button>
