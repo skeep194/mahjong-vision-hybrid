@@ -66,7 +66,7 @@ export const RiichiMahjongInputScreen = ({
         huro.forEach((value: string[]) => {
           result.openPart.push({
             tiles: toRiichiArray(value[0], maxHuro),
-            open: value[0][0] === '-',
+            open: value[0][0] !== '-',
           });
         });
         navigation.navigate('InformationInput', result);
