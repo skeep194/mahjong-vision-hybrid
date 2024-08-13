@@ -2771,6 +2771,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@skeep194/riichi-ts@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "@skeep194/riichi-ts@npm:0.0.1"
+  checksum: bef51b3f1d64b05176883c44220a2770132d843a905c598d5d82ba70eb4e87a717985d9c1ec71897b19ca7b652084e46e2ab016bbc09e9819ab194c17e379c44
+  languageName: node
+  linkType: hard
+
 "@styled/typescript-styled-plugin@npm:^1.0.1":
   version: 1.0.1
   resolution: "@styled/typescript-styled-plugin@npm:1.0.1"
@@ -3256,6 +3263,7 @@ __metadata:
     "@react-native/typescript-config": 0.74.85
     "@react-navigation/native": ^6.1.18
     "@react-navigation/native-stack": ^6.10.1
+    "@skeep194/riichi-ts": ^0.0.1
     "@styled/typescript-styled-plugin": ^1.0.1
     "@types/react": ^18.2.6
     "@types/react-test-renderer": ^18.0.0
@@ -3279,7 +3287,6 @@ __metadata:
     react-native-svg: ^15.4.0
     react-native-toast-message: ^2.2.0
     react-test-renderer: 18.2.0
-    riichi-ts: ^1.0.7
     styled-components: ^6.1.12
     typescript: 5.0.4
     yup: ^1.4.0
@@ -9029,13 +9036,6 @@ __metadata:
   version: 1.0.4
   resolution: "reusify@npm:1.0.4"
   checksum: c3076ebcc22a6bc252cb0b9c77561795256c22b757f40c0d8110b1300723f15ec0fc8685e8d4ea6d7666f36c79ccc793b1939c748bf36f18f542744a4e379fcc
-  languageName: node
-  linkType: hard
-
-"riichi-ts@npm:^1.0.7":
-  version: 1.0.7
-  resolution: "riichi-ts@npm:1.0.7"
-  checksum: a757b688e5b77dab5bed97db19234dd833756ae108754683c2c822d7595ad674ac02bff2db0754bd36b4a905c27973a3a57ba05afbd42c9ac1abb4eb1fa5dc12
   languageName: node
   linkType: hard
 

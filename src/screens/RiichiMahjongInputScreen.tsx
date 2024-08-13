@@ -9,7 +9,7 @@ import {
 } from '@ui-kitten/components';
 import React, {useState} from 'react';
 import {Alert, ScrollView, View} from 'react-native';
-import {Riichi} from 'riichi-ts';
+import {Riichi} from '@skeep194/riichi-ts';
 import {FadeInView} from 'src/components/FadeinView';
 import {HandImage} from 'src/components/HandImage';
 import {HandProtocolHelp} from 'src/components/HandProtocolHelp';

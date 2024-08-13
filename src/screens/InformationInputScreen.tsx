@@ -16,7 +16,7 @@ import {styled} from 'styled-components/native';
 import InformationInputImg from '@assets/information_input.png';
 import {GestureResponderEvent, Image, ScrollView, View} from 'react-native';
 import {Formik} from 'formik';
-import {Riichi} from 'riichi-ts';
+import {Riichi} from '@skeep194/riichi-ts';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {countFive} from 'src/utils/hand';
 import {errorToast} from 'src/utils/toast';

@@ -14,6 +14,7 @@
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.10.1",
+    "@skeep194/riichi-ts": "^0.0.1",
     "@ui-kitten/components": "^5.3.1",
     "@ui-kitten/eva-icons": "^5.3.1",
     "assert": "^2.1.0",
@@ -25,7 +26,6 @@
     "react-native-screens": "^3.32.0",
     "react-native-svg": "^15.4.0",
     "react-native-toast-message": "^2.2.0",
-    "riichi-ts": "^1.0.7",
     "styled-components": "^6.1.12",
     "yup": "^1.4.0"
   },
