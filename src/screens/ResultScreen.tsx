@@ -32,13 +32,19 @@ export const ResultScreen = ({route, navigation}: ResultScreenProps) => {
         <TitleText category="h3">역</TitleText>
         {Object.entries(result.yaku).map((value: [string, number]) => {
           return (
-            <DataCard {...yakuData[value[0]]} score={value[1]} key={value[0]} />
+            <DataCard
+              fupan="pan"
+              {...yakuData[value[0]]}
+              score={value[1]}
+              key={value[0]}
+            />
           );
         })}
         <TitleText category="h3">부수</TitleText>
         {result.fuReason.map((value: fu) => {
           return (
             <DataCard
+              fupan="fu"
               {...fuData[value.name]}
               score={value.score}
               key={value.name}
@@ -58,13 +64,16 @@ export const ResultScreen = ({route, navigation}: ResultScreenProps) => {
   );
 };
 
-const DataCard = ({description, name, score}: dataCardProps) => {
+const DataCard = ({description, name, score, fupan}: dataCardProps) => {
   return (
     <ExplainCard
       header={
         <View>
           <Text category="h6">{name}</Text>
-          <Text category="s1">{score}판</Text>
+          <Text category="s1">
+            {score}
+            {fupan === 'fu' ? '부' : '판'}
+          </Text>
         </View>
       }>
       <Text>{description}</Text>
@@ -76,6 +85,7 @@ interface dataCardProps {
   score: number;
   description: string;
   name: string;
+  fupan: 'fu' | 'pan';
   yakuman?: boolean;
 }
 
