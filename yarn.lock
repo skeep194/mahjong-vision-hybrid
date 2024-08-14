@@ -2771,10 +2771,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@skeep194/riichi-ts@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "@skeep194/riichi-ts@npm:0.0.1"
-  checksum: bef51b3f1d64b05176883c44220a2770132d843a905c598d5d82ba70eb4e87a717985d9c1ec71897b19ca7b652084e46e2ab016bbc09e9819ab194c17e379c44
+"@skeep194/riichi-ts@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@skeep194/riichi-ts@npm:1.0.0"
+  checksum: 54dff3a67e18879c706bbcf056f845b82132d6cf282555082b90bbd61759804b963385c1bdb8452ddb64e5908ae5d367bd4dedcd1707d8a835ff4cdf0897ce42
   languageName: node
   linkType: hard
 
@@ -3263,7 +3263,7 @@ __metadata:
     "@react-native/typescript-config": 0.74.85
     "@react-navigation/native": ^6.1.18
     "@react-navigation/native-stack": ^6.10.1
-    "@skeep194/riichi-ts": ^0.0.1
+    "@skeep194/riichi-ts": ^1.0.0
     "@styled/typescript-styled-plugin": ^1.0.1
     "@types/react": ^18.2.6
     "@types/react-test-renderer": ^18.0.0
