@@ -5,6 +5,7 @@ import {RootStackParamList} from 'src/types';
 import ResultSuccessImg from '@assets/result_success.png';
 import {Image, ScrollView, View} from 'react-native';
 import {styled} from 'styled-components/native';
+import {fu} from '@skeep194/riichi-ts/dist/fu';
 
 type ResultScreenProps = NativeStackScreenProps<RootStackParamList, 'Result'>;
 
@@ -21,7 +22,11 @@ export const ResultScreen = ({route, navigation}: ResultScreenProps) => {
               : `${result.yakuman}배 역만`}
           </Text>
           <Text category="s1" status="danger">
-            {result.ten}
+            {result.tenTsumo.length === 0
+              ? result.ten
+              : result.tenTsumo.length === 1
+              ? result.tenTsumo[0] + ' ALL'
+              : `${result.tenTsumo[0]}, ${result.tenTsumo[1]}`}
           </Text>
         </View>
         <TitleText category="h3">역</TitleText>
@@ -30,7 +35,16 @@ export const ResultScreen = ({route, navigation}: ResultScreenProps) => {
             <DataCard {...yakuData[value[0]]} score={value[1]} key={value[0]} />
           );
         })}
-        <TitleText category="h3">부수(제공 예정)</TitleText>
+        <TitleText category="h3">부수</TitleText>
+        {result.fuReason.map((value: fu) => {
+          return (
+            <DataCard
+              {...fuData[value.name]}
+              score={value.score}
+              key={value.name}
+            />
+          );
+        })}
         <Button
           status="success"
           appearance="outline"
@@ -302,7 +316,78 @@ const yakuData: data = {
   },
 };
 
-const fuData: data = {};
+const fuData: data = {
+  base: {
+    name: '부저',
+    description: '기본 형태 화료일 시 주어지는 기본 부수',
+  },
+  kokushimusou: {
+    name: '국사무쌍',
+    description: '국싸무상 형태 화료',
+  },
+  chiitoitsu: {
+    name: '치또이츠',
+    description: '치또이츠 형태 화료일 시 25부 고정',
+  },
+  'pair wait': {
+    name: '단기 대기',
+    description:
+      '머리 하나가 부족한 형태에서 나머지 한 장의 머리를 대기패료 화료',
+  },
+  'edge wait': {
+    name: '변짱 대기',
+    description: '1 2 혹은 8 9 형태에서 나머지 한 장으로 슌쯔를 완성하는 대기',
+  },
+  'closed wait': {
+    name: '간짱 대기',
+    description: '2 4 처럼 슌쯔 중간에 하나가 빈 형태의 대기',
+  },
+  tsumo: {
+    name: '쯔모',
+    description: '쯔모 화료 시 주어지는 부수',
+  },
+  'menzen ron': {
+    name: '멘젠 론',
+    description: '멘젠 상태로 론 화료 시 주어지는 부수',
+  },
+  'open triplet simple': {
+    name: '중장패 밍커',
+    description: '중장패 커쯔를 퐁으로 완성',
+  },
+  'open triplet non simple': {
+    name: '요구패 밍커',
+    description: '요구패 커쯔를 퐁으로 완성',
+  },
+  'closed triplet simple': {
+    name: '중장패 안커',
+    description: '중장패 커쯔를 후로하지 않고 완성',
+  },
+  'closed triplet non simple': {
+    name: '요구패 안커',
+    description: '요구패 커쯔를 후로하지 않고 완성',
+  },
+  'open kan simple': {
+    name: '중장패 대명, 소명깡',
+    description: '중장패를 대명깡 혹은 소명깡으로 완성',
+  },
+  'open kan non simple': {
+    name: '요구패 대명, 소명깡',
+    description: '요구패를 대명깡 혹은 소명깡으로 완성',
+  },
+  'closed kan simple': {
+    name: '중장패 안깡',
+    description: '중장패를 후로하지 않고 같은 종류 4개를 모아 안깡',
+  },
+  'closed kan non simple': {
+    name: '요구패 안깡',
+    description: '요구패를 후로하지 않고 같은 종류 4개를 모아 안깡',
+  },
+  'yakuhai pair': {
+    name: '역패 머리',
+    description:
+      '3개 모으면 역이 되는 패(삼원패, 자풍패, 장풍패)를 머리로 완성',
+  },
+};
 
 const Main = styled(Layout)`
   height: 100%;
