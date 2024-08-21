@@ -3,18 +3,10 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "src/*": [
-        "./src/*"
-      ],
-      "assets/*": [
-        "./src/assets/*"
-      ],
-      "components/*": [
-        "./src/components/*"
-      ],
-      "screens/*": [
-        "./src/screens/*"
-      ],
+      "src/*": ["./src/*"],
+      "assets/*": ["./src/assets/*"],
+      "components/*": ["./src/components/*"],
+      "screens/*": ["./src/screens/*"]
     },
     "plugins": [
       {
@@ -39,5 +31,5 @@
       }
     ]
   },
-  "extends": "@react-native/typescript-config/tsconfig.json",
+  "extends": "@react-native/typescript-config/tsconfig.json"
 }

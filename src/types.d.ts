@@ -9,4 +9,5 @@ export type RootStackParamList = {
   Result: RiichiResult;
   ResultFail: undefined;
   Loading: undefined;
+  Camera: undefined;
 };

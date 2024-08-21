@@ -1,0 +1,21 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/models/1.tflite",
+      "sha1": "01bfe6b353ae4efbc1d790a134a11ea2d3516362"
+    },
+    {
+      "path": "src/models/mahjong.tflite",
+      "sha1": "c608e09d431773cef12428bf75711af3bb31d0e3"
+    },
+    {
+      "path": "src/models/model.onnx",
+      "sha1": "77f3e7e16a94a713cfdc9157bee314e273bcd531"
+    },
+    {
+      "path": "src/models/model.ort",
+      "sha1": "8f6d41049f98eb237a564d5bb4bc9bdbc0f3bb9d"
+    }
+  ]
+}

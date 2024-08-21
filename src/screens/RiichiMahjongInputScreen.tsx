@@ -188,7 +188,12 @@ export const RiichiMahjongInputScreen = ({
             이전
           </MarginButton>
         )}
-        <MarginButton status="basic" accessoryLeft={PictureIcon}>
+        <MarginButton
+          status="basic"
+          accessoryLeft={PictureIcon}
+          onPress={() => {
+            navigation.navigate('Camera');
+          }}>
           사진으로 입력
         </MarginButton>
         <HandProtocolHelp />

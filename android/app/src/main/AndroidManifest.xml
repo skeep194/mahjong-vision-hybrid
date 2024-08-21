@@ -9,6 +9,13 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+      <!-- Like this -->
+      <uses-native-library android:name="libOpenCL.so" android:required="false" />
+
+      <!-- You may need one/all of the followings depends on your targeting devices -->
+      <uses-native-library android:name="libOpenCL-pixel.so" android:required="false" />
+      <uses-native-library android:name="libGLES_mali.so" android:required="false" />
+      <uses-native-library android:name="libPVROCL.so" android:required="false" />
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -22,4 +29,5 @@
         </intent-filter>
       </activity>
     </application>
+    <uses-permission android:name="android.permission.CAMERA" />
 </manifest>

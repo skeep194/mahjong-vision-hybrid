@@ -41,13 +41,13 @@ export const ResultScreen = ({route, navigation}: ResultScreenProps) => {
           );
         })}
         <TitleText category="h3">부수</TitleText>
-        {result.fuReason.map((value: fu) => {
+        {result.fuReason.map((value: fu, index: number) => {
           return (
             <DataCard
               fupan="fu"
               {...fuData[value.name]}
               score={value.score}
-              key={value.name}
+              key={index}
             />
           );
         })}

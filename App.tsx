@@ -19,6 +19,7 @@ import {ResultScreen} from 'src/screens/ResultScreen';
 import {ResultFailScreen} from 'src/screens/ResultFailScreen';
 import LoadingScreen from 'src/screens/LoadingScreen';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import {CameraScreen} from 'src/screens/CameraScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -59,6 +60,7 @@ export default () => (
             headerShown: false,
           }}
         />
+        <Stack.Screen name="Camera" component={CameraScreen} />
         <Stack.Screen name="Loading" component={LoadingScreen} />
       </Stack.Navigator>
     </NavigationContainer>

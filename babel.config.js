@@ -12,6 +12,13 @@ module.exports = {
         },
       },
     ],
-    ['babel-plugin-styled-components']
+    ['babel-plugin-styled-components'],
+    ['react-native-worklets-core/plugin'],
+    [
+      'react-native-reanimated/plugin',
+      {
+        globals: ['__detectObjects'],
+      },
+    ],
   ],
 };
