@@ -31,6 +31,14 @@ const MinusIcon = (props: any): IconElement => (
   <Icon {...props} name="minus-circle-outline" />
 );
 
+export type RiichiMahjongInput = {
+  hand: string;
+  huro: string[][];
+  dora: string;
+  agari: string;
+  inputLevel: number;
+};
+
 export const RiichiMahjongInputScreen = ({
   navigation,
   route,

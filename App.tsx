@@ -60,8 +60,16 @@ export default () => (
             headerShown: false,
           }}
         />
-        <Stack.Screen name="Camera" component={CameraScreen} />
-        <Stack.Screen name="Loading" component={LoadingScreen} />
+        <Stack.Screen
+          name="Camera"
+          component={CameraScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Loading"
+          component={LoadingScreen}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
     <Toast />
