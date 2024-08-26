@@ -33,26 +33,32 @@ const MinusIcon = (props: any): IconElement => (
 
 export type RiichiMahjongInput = {
   hand: string;
-  huro: string[][];
+  huro: HuroWithUUID[];
   dora: string;
   agari: string;
   inputLevel: number;
 };
 
+export class HuroWithUUID {
+  constructor(huro: string) {
+    this.huro = huro;
+    this.uuid = crypto.randomUUID();
+  }
+  huro: string;
+  uuid: string;
+}
+
 export const RiichiMahjongInputScreen = ({
   navigation,
   route,
 }: RiichiMahjongInputScreenProps) => {
-  const [hand, handUpdate] = useState<string>('');
-  /**
-   * huro - each element has 2 element array
-   * [[huroString, UUID]]
-   * UUID is for .map function rendering
-   */
-  const [huro, huroUpdate] = useState<string[][]>([]);
-  const [dora, doraUpdate] = useState<string>('');
-  const [agari, agariUpdate] = useState<string>('');
-  const [inputLevel, inputLevelUpdate] = useState<number>(0);
+  const [hand, handUpdate] = useState<string>(route.params.hand);
+  const [huro, huroUpdate] = useState<HuroWithUUID[]>(route.params.huro);
+  const [dora, doraUpdate] = useState<string>(route.params.dora);
+  const [agari, agariUpdate] = useState<string>(route.params.agari);
+  const [inputLevel, inputLevelUpdate] = useState<number>(
+    route.params.inputLevel,
+  );
   const NextButton = () => (
     <MarginButton
       status="info"
@@ -71,10 +77,10 @@ export const RiichiMahjongInputScreen = ({
         result.closedPart = toRiichiArray(hand, maxHand);
         result.winTile = toRiichiArray(agari, maxAgari)[0];
         result.dora = toRiichiArray(dora, maxDora);
-        huro.forEach((value: string[]) => {
+        huro.forEach((value: HuroWithUUID) => {
           result.openPart.push({
-            tiles: toRiichiArray(value[0], maxHuro),
-            open: value[0][0] !== '-',
+            tiles: toRiichiArray(value.huro, maxHuro),
+            open: value.huro[0] !== '-',
           });
         });
         navigation.navigate('InformationInput', result);
@@ -103,14 +109,14 @@ export const RiichiMahjongInputScreen = ({
         {inputLevel >= 1 && (
           <HandView>
             <Text>후로패</Text>
-            {huro.map((value: string[], index: number) => (
-              <View key={value[1]}>
+            {huro.map((value: HuroWithUUID, index: number) => (
+              <View key={value.uuid}>
                 <FadeInView
                   style={{flexDirection: 'row', alignItems: 'center'}}>
                   <HuroInput
                     placeholder="치퐁깡당 하나씩만, 안깡은 맨앞에 -"
                     onChangeText={(text: string) => {
-                      huro[index][0] = text;
+                      huro[index].huro = text;
                       huroUpdate([...huro]);
                     }}
                   />
@@ -125,8 +131,8 @@ export const RiichiMahjongInputScreen = ({
                   />
                 </FadeInView>
                 <HandImage
-                  data={toRiichiArray(value[0], maxHuro)}
-                  ankkang={value[0][0] === '-'}
+                  data={toRiichiArray(value.huro, maxHuro)}
+                  ankkang={value.huro[0] === '-'}
                 />
               </View>
             ))}
@@ -137,7 +143,7 @@ export const RiichiMahjongInputScreen = ({
             status="warning"
             appearance="outline"
             onPress={() => {
-              huro.push(['', crypto.randomUUID()]);
+              huro.push(new HuroWithUUID(''));
               huroUpdate([...huro]);
             }}>
             후로패 추가

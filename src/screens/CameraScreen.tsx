@@ -1,5 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Button, Text} from '@ui-kitten/components';
+import {Button, Icon, Text} from '@ui-kitten/components';
 import React from 'react';
 import {
   Camera,
@@ -15,7 +15,7 @@ import {RootStackParamList} from 'src/types';
 import {useResizePlugin} from 'vision-camera-resize-plugin';
 import {TensorflowModel, useTensorflowModel} from 'react-native-fast-tflite';
 import Model from '../models/mahjong.tflite';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {
   AlphaType,
   ColorType,
@@ -23,7 +23,13 @@ import {
   Skia,
   useFont,
 } from '@shopify/react-native-skia';
-import {Rectangle, labels, nms} from 'src/utils/imageSplit';
+import {
+  convertDisplay,
+  Rectangle,
+  labels,
+  nms,
+  convertInputData,
+} from 'src/utils/imageSplit';
 import {
   ISharedValue,
   Worklets,
@@ -33,6 +39,7 @@ import {
 } from 'react-native-worklets-core';
 import Roboto from '../fonts/Roboto-Regular.ttf';
 import {styled} from 'styled-components/native';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
 type CameraScreenProps = NativeStackScreenProps<RootStackParamList, 'Camera'>;
 
@@ -42,6 +49,10 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
     requestPermission();
     return <></>;
   }
+
+  const font = useFont(Roboto, 36, err => {
+    console.log(err);
+  });
 
   const device = useCameraDevice('back');
   if (device == null) {
@@ -56,14 +67,11 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
   const model =
     objectDetection.state === 'loaded' ? objectDetection.model : undefined;
 
-  const goBack = useRunOnJS(
-    result => {
-      console.log(result);
-      navigation.navigate('RiichiMahjongInput', result);
-    },
-    [navigation],
-  );
+  const allDetections: ISharedValue<Rectangle[]> = useSharedValue([]);
 
+  const goBack = (result: Rectangle[]) => {
+    navigation.navigate('RiichiMahjongInput', convertInputData(result));
+  };
   const detect = (frame: Frame) => {
     'worklet';
     if (model == null) {
@@ -80,7 +88,7 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
     });
     const outputs = model.runSync([resized])[0];
     const numDetections = 8400;
-    let result = [];
+    let result: Rectangle[] = [];
     for (let i = 0; i < numDetections; i++) {
       const x = outputs[i] as number;
       const y = outputs[i + numDetections * 1] as number;
@@ -95,12 +103,12 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
             x2: x + width,
             y2: y + height,
             confidence: confidence,
-            classNum: j - 4,
+            handNum: j - 4,
           });
         }
       }
     }
-    result = nms(result);
+    result = convertDisplay(nms(result));
     return result;
   };
 
@@ -114,17 +122,48 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
       paint.setStrokeWidth(10);
       frame.drawLine(frame.width / 2, 0, frame.width / 2, frame.height, paint);
 
+      allDetections.value.forEach(value => {
+        const rect = Skia.XYWHRect(
+          value.x1 * frame.height + (frame.width - frame.height) / 2,
+          value.y1 * frame.height,
+          (value.x2 - value.x1) * frame.height,
+          (value.y2 - value.y1) * frame.height,
+        );
+        const rectPaint = Skia.Paint();
+        const color = {
+          dora: Skia.Color('red'),
+          huro: Skia.Color('green'),
+          hand: Skia.Color('blue'),
+          agari: Skia.Color('white'),
+        };
+        if (value.label) {
+          rectPaint.setColor(color[value.label]);
+        }
+        rectPaint.setStrokeWidth(3);
+        rectPaint.setStyle(PaintStyle.Stroke);
+        frame.drawRect(rect, rectPaint);
+
+        if (font != null) {
+          const fontPaint = Skia.Paint();
+          frame.drawText(
+            labels[value.handNum!],
+            value.x1 * frame.height + (frame.width - frame.height) / 2,
+            value.y1 * frame.height,
+            fontPaint,
+            font,
+          );
+        }
+      });
+
       if (trigger.value) {
         trigger.value = false;
         if (model == null) {
           return;
         }
-        const result = detect(frame);
-        console.log(result.length);
-        // goBack(result);
+        allDetections.value = detect(frame);
       }
     },
-    [model],
+    [model, allDetections, trigger, font],
   );
   return (
     <>
@@ -135,22 +174,41 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
         frameProcessor={frameProcessor}
         format={format}
       />
-      <TakeButton
-        onPress={() => {
-          trigger.value = true;
-        }}
-      />
+      <ButtonView>
+        <TakeButton
+          accessoryLeft={<Icon name="eye-outline" />}
+          onPress={() => {
+            trigger.value = true;
+          }}
+        />
+        <TakeButton
+          accessoryLeft={<Icon name="checkmark-outline" />}
+          onPress={() => {
+            try {
+              goBack(allDetections.value);
+            } catch (e) {
+              Toast.show({text1: String(e), type: 'error'});
+            }
+          }}
+        />
+      </ButtonView>
     </>
   );
 };
 
-const TakeButton = styled(Button)`
+const ButtonView = styled.View`
   position: absolute;
+  bottom: 30px;
   align-self: center;
-  background-color: white;
+  flex-direction: row;
+`;
+
+const TakeButton = styled(Button)`
+  background-color: black;
   width: 50px;
   height: 50px;
   border-radius: 50px;
-  border-color: gray;
+  border-color: white;
   bottom: 30px;
+  margin-horizontal: 10px;
 `;
