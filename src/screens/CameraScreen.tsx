@@ -94,7 +94,7 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
       const y = outputs[i + numDetections * 1] as number;
       const width = outputs[i + numDetections * 2] as number;
       const height = outputs[i + numDetections * 3] as number;
-      for (let j = 4; j < 38; j++) {
+      for (let j = 4; j < 42; j++) {
         const confidence = outputs[i + numDetections * j] as number;
         if (confidence > 0.7) {
           result.push({

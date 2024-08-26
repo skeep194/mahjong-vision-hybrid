@@ -230,6 +230,10 @@ const huroSplit = (huros: Rectangle[], size: number): HuroWithUUID[] => {
 };
 
 export const labels = [
+  '0b',
+  '0m',
+  '0p',
+  '0s',
   '1m',
   '1p',
   '1s',
