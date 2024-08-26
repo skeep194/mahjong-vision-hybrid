@@ -7,7 +7,7 @@ import {
   Layout,
   Text,
 } from '@ui-kitten/components';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, ScrollView, View} from 'react-native';
 import {Riichi} from '@skeep194/riichi-ts';
 import {FadeInView} from 'src/components/FadeinView';
@@ -59,6 +59,19 @@ export const RiichiMahjongInputScreen = ({
   const [inputLevel, inputLevelUpdate] = useState<number>(
     route.params.inputLevel,
   );
+  useEffect(() => {
+    handUpdate(route.params.hand);
+    huroUpdate(route.params.huro);
+    doraUpdate(route.params.dora);
+    agariUpdate(route.params.agari);
+    inputLevelUpdate(route.params.inputLevel);
+  }, [
+    route.params.hand,
+    route.params.huro,
+    route.params.dora,
+    route.params.agari,
+    route.params.agari,
+  ]);
   const NextButton = () => (
     <MarginButton
       status="info"

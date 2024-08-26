@@ -182,14 +182,14 @@ const huroSplit = (huros: Rectangle[], size: number): HuroWithUUID[] => {
     return values[0] === values[1];
   };
   const huroDfs = (remain: number, start: number): boolean => {
-    if (remain === 0) return true;
+    if (remain === 0) return start === huros.length;
     huros.slice;
     const values: string[] = [];
     for (let i = start; i < huros.length; i++) {
       values.push(labels[huros[i].handNum!]);
       if (values.length === 2) {
         if (isValidAnkkang(values)) {
-          result.push(new HuroWithUUID(values.join()));
+          result.push(new HuroWithUUID('-' + values.join() + values.join()));
           if (huroDfs(remain - 1, start + 2)) {
             return true;
           }
