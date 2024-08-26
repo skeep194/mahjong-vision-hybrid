@@ -23,8 +23,8 @@ type RiichiMahjongInputScreenProps = NativeStackScreenProps<
   'RiichiMahjongInput'
 >;
 
-const PictureIcon = (props: any): IconElement => (
-  <Icon {...props} name="image-outline" />
+const CameraIcon = (props: any): IconElement => (
+  <Icon {...props} name="camera-outline" />
 );
 
 const MinusIcon = (props: any): IconElement => (
@@ -198,11 +198,11 @@ export const RiichiMahjongInputScreen = ({
         )}
         <MarginButton
           status="basic"
-          accessoryLeft={PictureIcon}
+          accessoryLeft={CameraIcon}
           onPress={() => {
             navigation.navigate('Camera');
           }}>
-          사진으로 입력
+          사진 촬영으로 입력
         </MarginButton>
         <HandProtocolHelp />
       </ScrollView>

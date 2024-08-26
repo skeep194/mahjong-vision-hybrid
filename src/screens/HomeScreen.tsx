@@ -27,7 +27,13 @@ const HomeScreen = ({navigation, route}: HomeScreenProps) => (
       <LogoImage source={JansouImg} />
       <Button
         onPress={() => {
-          navigation.navigate('RiichiMahjongInput');
+          navigation.navigate('RiichiMahjongInput', {
+            hand: '',
+            dora: '',
+            huro: [],
+            agari: '',
+            inputLevel: 0,
+          });
         }}>
         4명이 모였나요?
       </Button>
