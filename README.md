@@ -21,6 +21,12 @@ yarn android
 <img src="https://github.com/user-attachments/assets/1dca9702-05bc-4099-800a-7e397f7280c2" width=220 height=400/>
 <img src="https://github.com/user-attachments/assets/145e32e7-0ed9-47e5-b330-ac68d22b3067" width=220 height=400/>
 
+# 모델
+
+YOLO v8을 이용해 학습시킨 모델을 tflite로 변환해서 사용했습니다.
+
+데이터셋은 [https://universe.roboflow.com/robosub-s9kbi/mahjong-tiles-model/dataset/2](https://universe.roboflow.com/robosub-s9kbi/mahjong-tiles-model/dataset/2)을 사용했습니다.
+
 # 다운로드
 
 정식 릴리즈 때 추가 예정
