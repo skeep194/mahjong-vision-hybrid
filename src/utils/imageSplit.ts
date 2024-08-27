@@ -110,6 +110,7 @@ export const convertDisplay = (rectangles: Rectangle[]): Rectangle[] => {
 export const convertInputData = (
   rectangles: Rectangle[],
 ): RiichiMahjongInput => {
+  rectangles = [...rectangles].reverse();
   const result: RiichiMahjongInput = {
     hand: '',
     huro: [],

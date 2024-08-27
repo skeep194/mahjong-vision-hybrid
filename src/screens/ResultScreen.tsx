@@ -64,15 +64,21 @@ export const ResultScreen = ({route, navigation}: ResultScreenProps) => {
   );
 };
 
-const DataCard = ({description, name, score, fupan}: dataCardProps) => {
+const DataCard = ({
+  description,
+  name,
+  score,
+  fupan,
+  yakuman,
+}: dataCardProps) => {
   return (
     <ExplainCard
       header={
         <View>
           <Text category="h6">{name}</Text>
           <Text category="s1">
-            {score}
-            {fupan === 'fu' ? '부' : '판'}
+            {yakuman ? score / 13 : score}
+            {fupan === 'fu' ? '부' : yakuman ? '배 역만' : '판'}
           </Text>
         </View>
       }>
