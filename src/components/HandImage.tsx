@@ -42,12 +42,15 @@ const handImages = [
   require('@assets/pai/5z.png'),
   require('@assets/pai/6z.png'),
   require('@assets/pai/7z.png'),
+  require('@assets/pai/0m.png'),
+  require('@assets/pai/0p.png'),
+  require('@assets/pai/0s.png'),
   require('@assets/pai/back.png'),
 ];
 
 /**
  * given number array to mahjong image component
- * @property {number} data - represent hand(0-8 man, 9-17 pin, 18-26 sou, 23-32 honor)
+ * @property {number} data - represent hand(0-8 man, 9-17 pin, 18-26 sou, 27-33 honor 34-36 akadora)
  * @example [1, 2, 3, 4]
  */
 export const HandImage = ({data, ankkang}: HandImageProps) => {

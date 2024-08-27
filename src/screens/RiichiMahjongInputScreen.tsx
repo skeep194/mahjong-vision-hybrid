@@ -14,7 +14,7 @@ import {FadeInView} from 'src/components/FadeinView';
 import {HandImage} from 'src/components/HandImage';
 import {HandProtocolHelp} from 'src/components/HandProtocolHelp';
 import {RootStackParamList} from 'src/types';
-import {toRiichiArray} from 'src/utils/hand';
+import {countAka, toRiichiArray} from 'src/utils/hand';
 import styled from 'styled-components/native';
 import {HandInformation} from './InformationInputScreen';
 
@@ -88,13 +88,27 @@ export const RiichiMahjongInputScreen = ({
       onPress={() => {
         const result: HandInformation = new HandInformation();
         result.closedPart = toRiichiArray(hand, maxHand);
+        result.aka += countAka(toRiichiArray(hand, maxHand, true));
         result.winTile = toRiichiArray(agari, maxAgari)[0];
+        result.aka += countAka(toRiichiArray(agari, maxAgari, true));
         result.dora = toRiichiArray(dora, maxDora);
+        result.dora.forEach((value, index, array) => {
+          value += 1;
+          if (value === 9 || value === 18 || value === 27) {
+            value -= 9;
+          } else if (value === 31) {
+            value -= 4;
+          } else if (value === 34) {
+            value -= 3;
+          }
+          array[index] = value;
+        });
         huro.forEach((value: HuroWithUUID) => {
           result.openPart.push({
             tiles: toRiichiArray(value.huro, maxHuro),
             open: value.huro[0] !== '-',
           });
+          result.aka += countAka(toRiichiArray(value.huro, maxHuro, true));
         });
         navigation.navigate('InformationInput', result);
       }}>
@@ -112,13 +126,14 @@ export const RiichiMahjongInputScreen = ({
         <HandView>
           <Text>손패 (후로, 오름패 제외)</Text>
           <MarginInput
-            placeholder="ex) 1112345678999p"
+            placeholder="ex) 1112345678999p, 아카도라는 0p,0m,0s"
             onChangeText={(text: string) => {
               handUpdate(text);
-            }}
-          />
+            }}>
+            {hand}
+          </MarginInput>
         </HandView>
-        <HandImage data={toRiichiArray(hand, maxHand)} />
+        <HandImage data={toRiichiArray(hand, maxHand, true)} />
         {inputLevel >= 1 && (
           <HandView>
             <Text>후로패</Text>
@@ -131,8 +146,9 @@ export const RiichiMahjongInputScreen = ({
                     onChangeText={(text: string) => {
                       huro[index].huro = text;
                       huroUpdate([...huro]);
-                    }}
-                  />
+                    }}>
+                    {value.huro}
+                  </HuroInput>
                   <HuroDeleteButton
                     status="danger"
                     appearance="ghost"
@@ -144,7 +160,7 @@ export const RiichiMahjongInputScreen = ({
                   />
                 </FadeInView>
                 <HandImage
-                  data={toRiichiArray(value.huro, maxHuro)}
+                  data={toRiichiArray(value.huro, maxHuro, true)}
                   ankkang={value.huro[0] === '-'}
                 />
               </View>
@@ -170,10 +186,11 @@ export const RiichiMahjongInputScreen = ({
                 placeholder="도라는 도라표지패 다음 패"
                 onChangeText={(text: string) => {
                   doraUpdate(text);
-                }}
-              />
+                }}>
+                {dora}
+              </MarginInput>
             </FadeInView>
-            <HandImage data={toRiichiArray(dora, maxDora)} />
+            <HandImage data={toRiichiArray(dora, maxDora, true)} />
           </HandView>
         )}
         {inputLevel >= 3 && (
@@ -184,10 +201,11 @@ export const RiichiMahjongInputScreen = ({
                 placeholder="론, 쯔모 선언패"
                 onChangeText={(text: string) => {
                   agariUpdate(text);
-                }}
-              />
+                }}>
+                {agari}
+              </MarginInput>
             </FadeInView>
-            <HandImage data={toRiichiArray(agari, maxAgari)} />
+            <HandImage data={toRiichiArray(agari, maxAgari, true)} />
           </HandView>
         )}
         {inputLevel === 3 ? <CompleteButton /> : <NextButton />}

@@ -32,18 +32,19 @@ export class HandInformation {
     this.openPart = [];
     this.winTile = 0;
     this.dora = [];
+    this.aka = 0;
   }
   closedPart: number[];
   openPart: {open: boolean; tiles: number[]}[];
   winTile: number;
   dora: number[];
+  aka: number;
 }
 
 class MahjongInformation {
   hand: HandInformation;
   constructor(hand: HandInformation) {
     this.hand = hand;
-    this.aka = 0;
   }
   /**
    * @value 0 - tsumo
@@ -79,10 +80,6 @@ class MahjongInformation {
    * @value 2 - none
    */
   specialAgari?: number;
-  /**
-   * count of aka dora
-   */
-  aka: number;
 }
 
 const InformationSchema = Yup.object().shape({
@@ -133,7 +130,7 @@ export const InformationInputScreen = ({
               values.ippatsu,
               values.specialAgari === 1,
               values.specialAgari === 0,
-              values.aka,
+              values.hand.aka,
               true,
               true,
               false,
@@ -208,24 +205,6 @@ export const InformationInputScreen = ({
                 <Radio>하저로어/해저로월</Radio>
                 <Radio>없음</Radio>
               </HorizontalRadioGroup>
-              <Text>아카도라(개수)</Text>
-              <CountAkadoraView>
-                <AdjustButton
-                  accessoryLeft={<Icon name="minus-outline" fill="red" />}
-                  appearance="ghost"
-                  onPress={() => {
-                    setFieldValue('aka', Math.max(0, values.aka - 1));
-                  }}
-                />
-                <AkadoraText>{values.aka}</AkadoraText>
-                <AdjustButton
-                  accessoryLeft={<Icon name="plus-outline" />}
-                  appearance="ghost"
-                  onPress={() => {
-                    setFieldValue('aka', Math.min(maxAka, values.aka + 1));
-                  }}
-                />
-              </CountAkadoraView>
               <Button
                 status="success"
                 onPress={() => {
@@ -259,19 +238,4 @@ const LogoImage = styled(Image)`
 const HorizontalRadioGroup = styled(RadioGroup)`
   flex-direction: row;
   margin-bottom: 10px;
-`;
-
-const CountAkadoraView = styled.View`
-  margin-vertical: 10px;
-  flex-direction: row;
-  align-items: center;
-`;
-
-const AdjustButton = styled(Button)`
-  width: 10px;
-  height: 10px;
-`;
-
-const AkadoraText = styled(Text)`
-  margin-horizontal: 5px;
 `;

@@ -1,4 +1,8 @@
-export const toRiichiArray = (hand: string, maxLength?: number): number[] => {
+export const toRiichiArray = (
+  hand: string,
+  maxLength?: number,
+  acceptAka?: boolean,
+): number[] => {
   type handType = {
     [key: string]: number;
     p: number;
@@ -18,14 +22,22 @@ export const toRiichiArray = (hand: string, maxLength?: number): number[] => {
     s: 18,
     z: 27,
   };
+  const akaIndex: handType = {
+    m: 34,
+    p: 35,
+    s: 36,
+    z: 0,
+  };
   const result: number[] = [];
   let here: string = '';
   for (let i = 0; i < hand.length; ++i) {
     if (hand[i] == 'p' || hand[i] == 'm' || hand[i] == 's' || hand[i] == 'z') {
       for (let j = 0; j < here.length; ++j) {
-        let pos = parseInt(here[j]) - 1;
+        const pos = parseInt(here[j]) - 1;
         if (0 <= pos && pos < handMaximum[hand[i]]) {
           result.push(pos + handOffset[hand[i]]);
+        } else if (pos === -1 && hand[i] !== 'z') {
+          result.push(acceptAka ? akaIndex[hand[i]] : 4 + handOffset[hand[i]]);
         }
       }
       here = '';
@@ -34,6 +46,10 @@ export const toRiichiArray = (hand: string, maxLength?: number): number[] => {
     }
   }
   return result.slice(0, maxLength);
+};
+
+export const countAka = (hand: number[]): number => {
+  return hand.filter(value => 34 <= value && value <= 36).length;
 };
 
 /**
