@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Button, Icon, Text} from '@ui-kitten/components';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Camera,
   Frame,
@@ -40,6 +40,8 @@ import {
 import Roboto from '../fonts/Roboto-Regular.ttf';
 import {styled} from 'styled-components/native';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import {CameraHelp} from 'src/components/CameraHelp';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type CameraScreenProps = NativeStackScreenProps<RootStackParamList, 'Camera'>;
 
@@ -192,6 +194,7 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
           }}
         />
       </ButtonView>
+      <CameraHelp />
     </>
   );
 };
