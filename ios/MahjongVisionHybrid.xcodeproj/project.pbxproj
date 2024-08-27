@@ -11,14 +11,14 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		5DA34F6D36A1407C9D4168D4 /* 1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 28B83358506F4F5DB77A0131 /* 1.tflite */; };
+		7A5A1A382CB2488CAE548F5C /* mahjong.tflite in Resources */ = {isa = PBXBuildFile; fileRef = F32470E4C6904DDF81720CF8 /* mahjong.tflite */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		926A2D67F9955231A32B8F2A /* libPods-MahjongVisionHybrid-MahjongVisionHybridTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EF54099A9003BB47EF332F /* libPods-MahjongVisionHybrid-MahjongVisionHybridTests.a */; };
+		AA7F4D69768748968FDA688B /* model.onnx in Resources */ = {isa = PBXBuildFile; fileRef = 3C3C1C549A2D44F89932131D /* model.onnx */; };
 		B8FC5A9050D5AE7BF223F9C9 /* libPods-MahjongVisionHybrid.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDFA63EF23670C654FBA9DD6 /* libPods-MahjongVisionHybrid.a */; };
 		F77FE7FA2A43C3CD49825FFC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 171E6E7FA09B8091266E787A /* PrivacyInfo.xcprivacy */; };
-		7A5A1A382CB2488CAE548F5C /* mahjong.tflite in Resources */ = {isa = PBXBuildFile; fileRef = F32470E4C6904DDF81720CF8 /* mahjong.tflite */; };
-		AA7F4D69768748968FDA688B /* model.onnx in Resources */ = {isa = PBXBuildFile; fileRef = 3C3C1C549A2D44F89932131D /* model.onnx */; };
 		F9FA2EDED03C46748B7B68C6 /* model.ort in Resources */ = {isa = PBXBuildFile; fileRef = FB9865AE49D545DBAB30BC35 /* model.ort */; };
-		5DA34F6D36A1407C9D4168D4 /* 1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 28B83358506F4F5DB77A0131 /* 1.tflite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,17 +44,17 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MahjongVisionHybrid/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = MahjongVisionHybrid/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		171E6E7FA09B8091266E787A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = MahjongVisionHybrid/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		28B83358506F4F5DB77A0131 /* 1.tflite */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = 1.tflite; path = ../src/models/1.tflite; sourceTree = "<group>"; };
+		3C3C1C549A2D44F89932131D /* model.onnx */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = model.onnx; path = ../src/models/model.onnx; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MahjongVisionHybrid/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B2159D277086FEFD8533D624 /* Pods-MahjongVisionHybrid.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MahjongVisionHybrid.debug.xcconfig"; path = "Target Support Files/Pods-MahjongVisionHybrid/Pods-MahjongVisionHybrid.debug.xcconfig"; sourceTree = "<group>"; };
 		B7EF54099A9003BB47EF332F /* libPods-MahjongVisionHybrid-MahjongVisionHybridTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MahjongVisionHybrid-MahjongVisionHybridTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDFA63EF23670C654FBA9DD6 /* libPods-MahjongVisionHybrid.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MahjongVisionHybrid.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C40FCFF53E23C5B04FD28C3D /* Pods-MahjongVisionHybrid-MahjongVisionHybridTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MahjongVisionHybrid-MahjongVisionHybridTests.debug.xcconfig"; path = "Target Support Files/Pods-MahjongVisionHybrid-MahjongVisionHybridTests/Pods-MahjongVisionHybrid-MahjongVisionHybridTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F32470E4C6904DDF81720CF8 /* mahjong.tflite */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = mahjong.tflite; path = ../src/models/mahjong.tflite; sourceTree = "<group>"; };
 		F368102197BC63ACF2FC0C8D /* Pods-MahjongVisionHybrid.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MahjongVisionHybrid.release.xcconfig"; path = "Target Support Files/Pods-MahjongVisionHybrid/Pods-MahjongVisionHybrid.release.xcconfig"; sourceTree = "<group>"; };
-		F32470E4C6904DDF81720CF8 /* mahjong.tflite */ = {isa = PBXFileReference; name = "mahjong.tflite"; path = "../src/models/mahjong.tflite"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3C3C1C549A2D44F89932131D /* model.onnx */ = {isa = PBXFileReference; name = "model.onnx"; path = "../src/models/model.onnx"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		FB9865AE49D545DBAB30BC35 /* model.ort */ = {isa = PBXFileReference; name = "model.ort"; path = "../src/models/model.ort"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		28B83358506F4F5DB77A0131 /* 1.tflite */ = {isa = PBXFileReference; name = "1.tflite"; path = "../src/models/1.tflite"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FB9865AE49D545DBAB30BC35 /* model.ort */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = model.ort; path = ../src/models/model.ort; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +151,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		870DEB21CC734330ADB5CEBE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F32470E4C6904DDF81720CF8 /* mahjong.tflite */,
+				3C3C1C549A2D44F89932131D /* model.onnx */,
+				FB9865AE49D545DBAB30BC35 /* model.ort */,
+				28B83358506F4F5DB77A0131 /* 1.tflite */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,18 +173,6 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
-		};
-		870DEB21CC734330ADB5CEBE /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				F32470E4C6904DDF81720CF8 /* mahjong.tflite */,
-				3C3C1C549A2D44F89932131D /* model.onnx */,
-				FB9865AE49D545DBAB30BC35 /* model.ort */,
-				28B83358506F4F5DB77A0131 /* 1.tflite */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 

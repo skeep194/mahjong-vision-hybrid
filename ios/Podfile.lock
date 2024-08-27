@@ -7,12 +7,6 @@ PODS:
   - hermes-engine (0.74.3):
     - hermes-engine/Pre-built (= 0.74.3)
   - hermes-engine/Pre-built (0.74.3)
-  - onnxruntime-c (1.19.0)
-  - onnxruntime-extensions-c (0.12.0)
-  - onnxruntime-react-native (1.19.0):
-    - onnxruntime-c
-    - onnxruntime-extensions-c
-    - React-Core
   - RCT-Folly (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -1314,10 +1308,6 @@ PODS:
   - RNSVG (15.4.0):
     - React-Core
   - SocketRocket (0.7.0)
-  - TensorFlowLiteTaskVision (0.4.3)
-  - vision-camera-realtime-object-detection (0.5.1):
-    - React-Core
-    - TensorFlowLiteTaskVision
   - vision-camera-resize-plugin (3.1.0):
     - DoubleConversion
     - glog
@@ -1361,7 +1351,6 @@ DEPENDENCIES:
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
-  - onnxruntime-react-native (from `../node_modules/onnxruntime-react-native`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTDeprecation (from `../node_modules/react-native/ReactApple/Libraries/RCTFoundation/RCTDeprecation`)
@@ -1420,17 +1409,13 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
-  - vision-camera-realtime-object-detection (from `../node_modules/vision-camera-realtime-object-detection`)
   - vision-camera-resize-plugin (from `../node_modules/vision-camera-resize-plugin`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
-    - onnxruntime-c
-    - onnxruntime-extensions-c
     - SocketRocket
-    - TensorFlowLiteTaskVision
 
 EXTERNAL SOURCES:
   boost:
@@ -1446,8 +1431,6 @@ EXTERNAL SOURCES:
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
     :tag: hermes-2024-06-28-RNv0.74.3-7bda0c267e76d11b68a585f84cfdd65000babf85
-  onnxruntime-react-native:
-    :path: "../node_modules/onnxruntime-react-native"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTDeprecation:
@@ -1560,8 +1543,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
-  vision-camera-realtime-object-detection:
-    :path: "../node_modules/vision-camera-realtime-object-detection"
   vision-camera-resize-plugin:
     :path: "../node_modules/vision-camera-resize-plugin"
   VisionCamera:
@@ -1576,9 +1557,6 @@ SPEC CHECKSUMS:
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: fdfdfe5479092de0c4bdbebedd9056951f092c4f
   hermes-engine: 1f547997900dd0752dc0cc0ae6dd16173c49e09b
-  onnxruntime-c: 7af84025c9020dde91cc132b888bb7d261cf9ffc
-  onnxruntime-extensions-c: a875f46a4b02ecc87e9e90ec6475732dd5dec2e2
-  onnxruntime-react-native: c31b5913808a99900f7ef3023c19f20c19453275
   RCT-Folly: 02617c592a293bd6d418e0a88ff4ee1f88329b47
   RCTDeprecation: 4c7eeb42be0b2e95195563c49be08d0b839d22b4
   RCTRequired: d530a0f489699c8500e944fde963102c42dcd0c2
@@ -1636,8 +1614,6 @@ SPEC CHECKSUMS:
   RNScreens: 5aeecbb09aa7285379b6e9f3c8a3c859bb16401c
   RNSVG: cb24fb322de8c1ebf59904e7aca0447bb8dbed5a
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
-  TensorFlowLiteTaskVision: 125d5b49d325ba2cf3938454da5f74a1cbfe0552
-  vision-camera-realtime-object-detection: b1bcd465b9b1b2f3c1db6f8de0beafe99a09951c
   vision-camera-resize-plugin: 4306d5df9bce0e603bbe6ab04337f21a606f4ad1
   VisionCamera: b0bf2df4e845825f03e04c025c9b8283a9c61bf7
   Yoga: 88480008ccacea6301ff7bf58726e27a72931c8d
