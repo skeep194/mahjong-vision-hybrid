@@ -41,10 +41,16 @@ export default () => (
         <Stack.Screen
           name="RiichiMahjongInput"
           component={RiichiMahjongInputScreen}
+          options={{
+            title: '패 입력',
+          }}
         />
         <Stack.Screen
           name="InformationInput"
           component={InformationInputScreen}
+          options={{
+            title: '추가 정보 입력',
+          }}
         />
         <Stack.Screen
           name="Result"
