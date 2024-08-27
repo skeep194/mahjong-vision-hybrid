@@ -70,7 +70,7 @@ export const RiichiMahjongInputScreen = ({
     route.params.huro,
     route.params.dora,
     route.params.agari,
-    route.params.agari,
+    route.params.inputLevel,
   ]);
   const NextButton = () => (
     <MarginButton
@@ -167,7 +167,7 @@ export const RiichiMahjongInputScreen = ({
             <Text>도라표지패</Text>
             <FadeInView style={{}}>
               <MarginInput
-                placeholder="아카도라는 다음 화면에서 입력"
+                placeholder="도라는 도라표지패 다음 패"
                 onChangeText={(text: string) => {
                   doraUpdate(text);
                 }}
