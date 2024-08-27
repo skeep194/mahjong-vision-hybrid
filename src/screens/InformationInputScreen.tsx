@@ -126,8 +126,8 @@ export const InformationInputScreen = ({
               values.winMethod === 1 ? values.hand.winTile : undefined,
               false,
               values.riichi === 1,
-              values.riichi === 2,
               values.ippatsu,
+              values.riichi === 2,
               values.specialAgari === 1,
               values.specialAgari === 0,
               values.hand.aka,
@@ -212,6 +212,10 @@ export const InformationInputScreen = ({
                   errorToast(errors.seatWind);
                   errorToast(errors.riichi);
                   errorToast(errors.winMethod);
+                  if (values.ippatsu && !values.riichi) {
+                    errorToast('일발은 리치 했을 때만 가능합니다.');
+                    return;
+                  }
                   submitForm();
                 }}>
                 완료
