@@ -1,11 +1,9 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Button, Icon, Text} from '@ui-kitten/components';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   Camera,
   Frame,
-  FrameInternal,
-  runAtTargetFps,
   useCameraDevice,
   useCameraFormat,
   useCameraPermission,
@@ -13,16 +11,9 @@ import {
 } from 'react-native-vision-camera';
 import {RootStackParamList} from 'src/types';
 import {useResizePlugin} from 'vision-camera-resize-plugin';
-import {TensorflowModel, useTensorflowModel} from 'react-native-fast-tflite';
+import {useTensorflowModel} from 'react-native-fast-tflite';
 import Model from '../models/mahjong.tflite';
-import {StyleSheet, View} from 'react-native';
-import {
-  AlphaType,
-  ColorType,
-  PaintStyle,
-  Skia,
-  useFont,
-} from '@shopify/react-native-skia';
+import {PaintStyle, Skia, useFont} from '@shopify/react-native-skia';
 import {
   convertDisplay,
   Rectangle,
@@ -30,18 +21,12 @@ import {
   nms,
   convertInputData,
 } from 'src/utils/imageSplit';
-import {
-  ISharedValue,
-  Worklets,
-  useRunOnJS,
-  useSharedValue,
-  worklet,
-} from 'react-native-worklets-core';
+import {ISharedValue, useSharedValue} from 'react-native-worklets-core';
 import Roboto from '../fonts/Roboto-Regular.ttf';
 import {styled} from 'styled-components/native';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {CameraHelp} from 'src/components/CameraHelp';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Dimensions, View} from 'react-native';
 
 type CameraScreenProps = NativeStackScreenProps<RootStackParamList, 'Camera'>;
 
@@ -167,15 +152,20 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
     },
     [model, allDetections, trigger, font],
   );
+  const length = Math.min(
+    Dimensions.get('window').width,
+    Dimensions.get('window').height,
+  );
   return (
     <>
       <Camera
         device={device}
-        style={{flex: 1, width: '100%'}}
+        style={{width: length, height: length}}
         isActive={true}
         frameProcessor={frameProcessor}
         format={format}
       />
+      <CameraHelp />
       <ButtonView>
         <TakeButton
           accessoryLeft={<Icon name="eye-outline" />}
@@ -194,7 +184,6 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
           }}
         />
       </ButtonView>
-      <CameraHelp />
     </>
   );
 };
