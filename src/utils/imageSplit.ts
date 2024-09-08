@@ -84,9 +84,6 @@ export const convertDisplay = (rectangles: Rectangle[]): Rectangle[] => {
     const by = midY(b);
     return ay - by;
   });
-  if (upper.length > 0) {
-    upper[0].label = 'agari';
-  }
   if (lower.length > 1) {
     let maxPos = 1;
     let maxDiff = midY(lower[1]) - midY(lower[0]);
@@ -102,6 +99,9 @@ export const convertDisplay = (rectangles: Rectangle[]): Rectangle[] => {
       for (let i = 0; i < maxPos; i++) {
         lower[i].label = 'huro';
       }
+      if (maxPos < lower.length) lower[maxPos].label = 'agari';
+    } else {
+      lower[0].label = 'agari';
     }
   }
   return upper.concat(lower);
