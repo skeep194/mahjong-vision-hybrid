@@ -3311,6 +3311,7 @@ __metadata:
     react: 18.2.0
     react-async: ^10.0.1
     react-native: 0.74.3
+    react-native-fast-opencv: ^0.2.3
     react-native-fast-tflite: ^1.3.0
     react-native-random-uuid: ^0.1.4
     react-native-reanimated: ^3.15.0
@@ -8667,6 +8668,16 @@ __metadata:
     react: 16.5.0
     react-native-svg: ^9.4.0
   checksum: 01407b90e61b915b31ac416701cc1d1db12c0a58de6ee7704c89d51ab76ac87c0ae6d506cb2ae6958d525ba2e43d8b9f891177db9c0308a5f3fc8a43a53d9cce
+  languageName: node
+  linkType: hard
+
+"react-native-fast-opencv@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "react-native-fast-opencv@npm:0.2.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 18e8571709bf89f778299e7042df57f1510c3d210b719d8bccce7ca897fdb39fa0e25b83604666b15ab259e62854933d5f1019387f5eaa1863f6575e920cf8b4
   languageName: node
   linkType: hard
 

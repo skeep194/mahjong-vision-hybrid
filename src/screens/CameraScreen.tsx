@@ -1,11 +1,9 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Button, Icon, Text} from '@ui-kitten/components';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   Camera,
-  Frame,
-  FrameInternal,
-  runAtTargetFps,
+  DrawableFrame,
   useCameraDevice,
   useCameraFormat,
   useCameraPermission,
@@ -13,16 +11,9 @@ import {
 } from 'react-native-vision-camera';
 import {RootStackParamList} from 'src/types';
 import {useResizePlugin} from 'vision-camera-resize-plugin';
-import {TensorflowModel, useTensorflowModel} from 'react-native-fast-tflite';
+import {useTensorflowModel} from 'react-native-fast-tflite';
 import Model from '../models/mahjong.tflite';
-import {StyleSheet, View} from 'react-native';
-import {
-  AlphaType,
-  ColorType,
-  PaintStyle,
-  Skia,
-  useFont,
-} from '@shopify/react-native-skia';
+import {PaintStyle, Skia, useFont} from '@shopify/react-native-skia';
 import {
   convertDisplay,
   Rectangle,
@@ -30,18 +21,19 @@ import {
   nms,
   convertInputData,
 } from 'src/utils/imageSplit';
-import {
-  ISharedValue,
-  Worklets,
-  useRunOnJS,
-  useSharedValue,
-  worklet,
-} from 'react-native-worklets-core';
+import {ISharedValue, useSharedValue} from 'react-native-worklets-core';
 import Roboto from '../fonts/Roboto-Regular.ttf';
 import {styled} from 'styled-components/native';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {CameraHelp} from 'src/components/CameraHelp';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  BorderTypes,
+  DataTypes,
+  ObjectType,
+  OpenCV,
+} from 'react-native-fast-opencv';
+import {runOnJS} from 'react-native-reanimated';
+import {Clipboard} from 'react-native';
 
 type CameraScreenProps = NativeStackScreenProps<RootStackParamList, 'Camera'>;
 
@@ -74,21 +66,53 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
   const goBack = (result: Rectangle[]) => {
     navigation.navigate('RiichiMahjongInput', convertInputData(result));
   };
-  const detect = (frame: Frame) => {
+  const detect = (frame: DrawableFrame) => {
     'worklet';
     if (model == null) {
       return [];
     }
+
+    const height = (frame.height / frame.width) * 640;
+    const width = 640;
+
     const resized = resize(frame, {
       scale: {
-        width: 640,
-        height: 640,
+        width: width,
+        height: height,
       },
-      pixelFormat: 'rgb',
-      dataType: 'float32',
+      pixelFormat: 'bgr',
+      dataType: 'uint8',
       rotation: '0deg',
     });
-    const outputs = model.runSync([resized])[0];
+    const mat = OpenCV.frameBufferToMat(height, width, resized);
+    const mat2 = OpenCV.createObject(
+      ObjectType.Mat,
+      width,
+      width,
+      DataTypes.CV_8U,
+    );
+    OpenCV.invoke(
+      'copyMakeBorder',
+      mat,
+      mat2,
+      0,
+      width - height,
+      0,
+      0,
+      BorderTypes.BORDER_CONSTANT,
+      OpenCV.createObject(ObjectType.Scalar, 255),
+    );
+
+    const b = OpenCV.toJSValue(mat2).base64;
+    console.log(b);
+
+    const m = Float32Array.from(
+      OpenCV.matToBuffer(mat2, 'uint8').buffer,
+      data => data / 255,
+    );
+    // const data = Skia.Data.fromBytes(OpenCV.matToBuffer(mat2, 'uint8').buffer);
+
+    const outputs = model.runSync([m])[0];
     const numDetections = 8400;
     let result: Rectangle[] = [];
     for (let i = 0; i < numDetections; i++) {
@@ -111,6 +135,8 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
       }
     }
     result = convertDisplay(nms(result));
+    console.log(result);
+    OpenCV.clearBuffers();
     return result;
   };
 
@@ -126,10 +152,10 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
 
       allDetections.value.forEach(value => {
         const rect = Skia.XYWHRect(
-          value.x1 * frame.height + (frame.width - frame.height) / 2,
-          value.y1 * frame.height,
-          (value.x2 - value.x1) * frame.height,
-          (value.y2 - value.y1) * frame.height,
+          value.x1 * frame.width,
+          value.y1 * frame.width,
+          (value.x2 - value.x1) * frame.width,
+          (value.y2 - value.y1) * frame.width,
         );
         const rectPaint = Skia.Paint();
         const color = {
@@ -149,8 +175,8 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
           const fontPaint = Skia.Paint();
           frame.drawText(
             labels[value.handNum!],
-            value.x1 * frame.height + (frame.width - frame.height) / 2,
-            value.y1 * frame.height,
+            value.x1 * frame.width,
+            value.y1 * frame.width,
             fontPaint,
             font,
           );
