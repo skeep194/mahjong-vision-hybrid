@@ -135,8 +135,13 @@ export const InformationInputScreen = ({
               true,
               false,
             );
+            result.disableHairi();
             const calc = result.calc();
-            if (calc.error || (calc.han == 0 && calc.yakuman == 0)) {
+            if (
+              calc.error ||
+              !calc.isAgari ||
+              (calc.han == 0 && calc.yakuman == 0)
+            ) {
               navigation.navigate('ResultFail');
             } else {
               navigation.navigate('Result', calc);
