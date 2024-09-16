@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Button, Icon, Text} from '@ui-kitten/components';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Camera,
   Frame,
@@ -32,10 +32,20 @@ type CameraScreenProps = NativeStackScreenProps<RootStackParamList, 'Camera'>;
 
 export const CameraScreen = ({navigation}: CameraScreenProps) => {
   const {hasPermission, requestPermission} = useCameraPermission();
-  if (!hasPermission) {
-    requestPermission();
-    return <></>;
-  }
+  useEffect(() => {
+    if (!hasPermission) {
+      const getPermission = async () => {
+        if (!(await requestPermission())) {
+          Toast.show({
+            type: 'error',
+            text1: '카메라 권한이 필요합니다.',
+          });
+          navigation.goBack();
+        }
+      };
+      getPermission();
+    }
+  }, []);
 
   const font = useFont(Roboto, 36, err => {
     console.log(err);
@@ -156,7 +166,7 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
     Dimensions.get('window').width,
     Dimensions.get('window').height,
   );
-  return (
+  return !hasPermission ? null : (
     <>
       <Camera
         device={device}
