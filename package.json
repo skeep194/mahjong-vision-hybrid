@@ -16,7 +16,7 @@
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.10.1",
     "@shopify/react-native-skia": "^1.3.10",
-    "@skeep194/riichi-ts": "^1.0.0",
+    "@skeep194/riichi-ts": "^1.0.1",
     "@ui-kitten/components": "^5.3.1",
     "@ui-kitten/eva-icons": "^5.3.1",
     "assert": "^2.1.0",
