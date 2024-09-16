@@ -142,8 +142,10 @@ export const InformationInputScreen = ({
               !calc.isAgari ||
               (calc.han == 0 && calc.yakuman == 0)
             ) {
+              navigation.popToTop();
               navigation.navigate('ResultFail');
             } else {
+              navigation.popToTop();
               navigation.navigate('Result', calc);
             }
           }}
