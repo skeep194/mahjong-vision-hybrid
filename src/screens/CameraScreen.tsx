@@ -26,7 +26,14 @@ import Roboto from '../fonts/Roboto-Regular.ttf';
 import {styled} from 'styled-components/native';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {CameraHelp} from 'src/components/CameraHelp';
-import {Dimensions, View} from 'react-native';
+import {
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  TouchableWithoutFeedbackComponent,
+  View,
+} from 'react-native';
 
 type CameraScreenProps = NativeStackScreenProps<RootStackParamList, 'Camera'>;
 
@@ -55,7 +62,7 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
   if (device == null) {
     return <Text>camera not found</Text>;
   }
-  const format = useCameraFormat(device, [{videoResolution: 'max'}]);
+  const format = useCameraFormat(device, []);
 
   const {resize} = useResizePlugin();
   const trigger = useSharedValue(false);
@@ -65,6 +72,7 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
     objectDetection.state === 'loaded' ? objectDetection.model : undefined;
 
   const allDetections: ISharedValue<Rectangle[]> = useSharedValue([]);
+  const splitTrigger = useSharedValue(false);
 
   const goBack = (result: Rectangle[]) => {
     navigation.navigate('RiichiMahjongInput', convertInputData(result));
@@ -74,57 +82,88 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
     if (model == null) {
       return [];
     }
-    const resized = resize(frame, {
-      scale: {
-        width: 640,
-        height: 640,
-      },
-      pixelFormat: 'rgb',
-      dataType: 'float32',
-      rotation: '0deg',
-    });
-    const outputs = model.runSync([resized])[0];
-    const numDetections = 8400;
-    let result: Rectangle[] = [];
-    for (let i = 0; i < numDetections; i++) {
-      const x = outputs[i] as number;
-      const y = outputs[i + numDetections * 1] as number;
-      const width = outputs[i + numDetections * 2] as number;
-      const height = outputs[i + numDetections * 3] as number;
-      for (let j = 4; j < 42; j++) {
-        const confidence = outputs[i + numDetections * j] as number;
-        if (confidence > 0.7) {
-          result.push({
-            x1: x,
-            y1: y,
-            x2: x + width,
-            y2: y + height,
-            confidence: confidence,
-            handNum: j - 4,
-          });
+    const length = Math.min(frame.height, frame.width);
+    const result = [];
+    for (
+      let pos = 0;
+      pos < Math.max(frame.height, frame.width);
+      pos += length / 2
+    ) {
+      const resized = resize(frame, {
+        scale: {
+          width: 640,
+          height: 640,
+        },
+        crop: {
+          x: frame.height < frame.width ? pos : 0,
+          y: frame.height < frame.width ? 0 : pos,
+          width: length,
+          height: length,
+        },
+        pixelFormat: 'rgb',
+        dataType: 'float32',
+        rotation: '0deg',
+      });
+      const outputs = model.runSync([resized])[0];
+      const numDetections = 8400;
+      let here: Rectangle[] = [];
+      for (let i = 0; i < numDetections; i++) {
+        const x = outputs[i] as number;
+        const y = outputs[i + numDetections * 1] as number;
+        const width = outputs[i + numDetections * 2] as number;
+        const height = outputs[i + numDetections * 3] as number;
+        for (let j = 4; j < 42; j++) {
+          const confidence = outputs[i + numDetections * j] as number;
+          if (confidence > 0.7) {
+            here.push({
+              x1: x * length + pos,
+              y1: y * length,
+              x2: (x + width) * length + pos,
+              y2: (y + height) * length,
+              confidence: confidence,
+              handNum: j - 4,
+            });
+          }
         }
       }
+      result.push(...nms(here));
     }
-    result = convertDisplay(nms(result));
-    return result;
+    return nms(result);
   };
+
+  const splitPosition = useSharedValue<{x: number; y: number} | null>(null);
 
   const frameProcessor = useSkiaFrameProcessor(
     frame => {
       'worklet';
       frame.render();
       //draw split line
-      const paint = Skia.Paint();
-      paint.setColor(Skia.Color('red'));
-      paint.setStrokeWidth(10);
-      frame.drawLine(frame.width / 2, 0, frame.width / 2, frame.height, paint);
+      if (splitPosition.value != null) {
+        const paint = Skia.Paint();
+        paint.setColor(Skia.Color('#87CEEB'));
+        paint.setStrokeWidth(10);
+        frame.drawLine(
+          splitPosition.value.x * frame.width,
+          frame.height - splitPosition.value.y * frame.height,
+          splitPosition.value.x * frame.width,
+          frame.height,
+          paint,
+        );
+        frame.drawLine(
+          0,
+          frame.height - splitPosition.value.y * frame.height,
+          frame.width,
+          frame.height - splitPosition.value.y * frame.height,
+          paint,
+        );
+      }
 
       allDetections.value.forEach(value => {
         const rect = Skia.XYWHRect(
-          value.x1 * frame.height + (frame.width - frame.height) / 2,
-          value.y1 * frame.height,
-          (value.x2 - value.x1) * frame.height,
-          (value.y2 - value.y1) * frame.height,
+          value.x1,
+          value.y1,
+          value.x2 - value.x1,
+          value.y2 - value.y1,
         );
         const rectPaint = Skia.Paint();
         const color = {
@@ -144,13 +183,23 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
           const fontPaint = Skia.Paint();
           frame.drawText(
             labels[value.handNum!],
-            value.x1 * frame.height + (frame.width - frame.height) / 2,
-            value.y1 * frame.height,
+            value.x1,
+            value.y1,
             fontPaint,
             font,
           );
         }
       });
+
+      if (splitTrigger.value) {
+        splitTrigger.value = false;
+        if (splitPosition.value != null) {
+          allDetections.value = convertDisplay(allDetections.value, {
+            x: splitPosition.value.x * frame.width,
+            y: frame.height - splitPosition.value.y * frame.height,
+          });
+        }
+      }
 
       if (trigger.value) {
         trigger.value = false;
@@ -160,22 +209,27 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
         allDetections.value = detect(frame);
       }
     },
-    [model, allDetections, trigger, font],
-  );
-  const length = Math.min(
-    Dimensions.get('window').width,
-    Dimensions.get('window').height,
+    [model, font],
   );
   return !hasPermission ? null : (
-    <>
+    <TouchableOpacity
+      activeOpacity={1}
+      onPress={event => {
+        // NEED VERIFY: should test vary circumstance(android, iPhone, not galaxy ...)
+        splitPosition.value = {
+          y: event.nativeEvent.pageY / Dimensions.get('screen').height,
+          x: event.nativeEvent.pageX / Dimensions.get('screen').width,
+        };
+        splitTrigger.value = true;
+      }}>
       <Camera
         device={device}
-        style={{width: length, height: length}}
+        style={{width: '100%', height: '100%'}}
         isActive={true}
         frameProcessor={frameProcessor}
         format={format}
       />
-      <CameraHelp />
+      {/* <CameraHelp /> */}
       <ButtonView>
         <TakeButton
           accessoryLeft={<Icon name="eye-outline" />}
@@ -194,7 +248,7 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
           }}
         />
       </ButtonView>
-    </>
+    </TouchableOpacity>
   );
 };
 

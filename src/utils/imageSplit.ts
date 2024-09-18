@@ -57,54 +57,40 @@ export const nms = (
   });
 };
 
-export const convertDisplay = (rectangles: Rectangle[]): Rectangle[] => {
+export const convertDisplay = (
+  rectangles: Rectangle[],
+  position: {x: number; y: number},
+): Rectangle[] => {
   'worklet';
-  const upper: Rectangle[] = [];
-  const lower: Rectangle[] = [];
-  rectangles.forEach(value => {
-    const x = (value.x1 + value.x2) / 2;
-    if (x > 0.5) {
-      lower.push(value);
-      lower[lower.length - 1].label = 'hand';
-    } else {
-      upper.push(value);
-      upper[upper.length - 1].label = 'dora';
-    }
-  });
-  const midY = (rectangle: Rectangle) => {
-    return (rectangle.y1 + rectangle.y2) / 2;
+  const midX = (rectangle: Rectangle) => {
+    return (rectangle.x1 + rectangle.x2) / 2;
   };
-  upper.sort((a, b) => {
-    const ay = midY(a);
-    const by = midY(b);
-    return ay - by;
+  rectangles = Array.from(rectangles).sort((a, b) => {
+    const ax = midX(a);
+    const bx = midX(b);
+    return bx - ax;
   });
-  lower.sort((a, b) => {
-    const ay = midY(a);
-    const by = midY(b);
-    return ay - by;
-  });
-  if (lower.length > 1) {
-    let maxPos = 1;
-    let maxDiff = midY(lower[1]) - midY(lower[0]);
-    let minDiff = maxDiff;
-    for (let i = 1; i < lower.length; i++) {
-      if (maxDiff < midY(lower[i]) - midY(lower[i - 1])) {
-        maxDiff = midY(lower[i]) - midY(lower[i - 1]);
-        maxPos = i;
-      }
-      minDiff = Math.min(minDiff, midY(lower[i]) - midY(lower[i - 1]));
-    }
-    if (minDiff * 3 <= maxDiff) {
-      for (let i = 0; i < maxPos; i++) {
-        lower[i].label = 'huro';
-      }
-      if (maxPos < lower.length) lower[maxPos].label = 'agari';
+  let findHand = false;
+
+  return rectangles.map(value => {
+    const x = (value.x1 + value.x2) / 2;
+    const y = (value.y1 + value.y2) / 2;
+    if (y < position.y) {
+      value.label = 'dora';
     } else {
-      lower[0].label = 'agari';
+      if (x < position.x) {
+        if (findHand) {
+          value.label = 'hand';
+        } else {
+          findHand = true;
+          value.label = 'agari';
+        }
+      } else {
+        value.label = 'huro';
+      }
     }
-  }
-  return upper.concat(lower);
+    return value;
+  });
 };
 
 export const convertInputData = (
