@@ -235,12 +235,6 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
       {/* <CameraHelp /> */}
       <ButtonView>
         <TakeButton
-          accessoryLeft={<Icon name="eye-outline" />}
-          onPress={() => {
-            trigger.value = true;
-          }}
-        />
-        <TakeButton
           accessoryLeft={<Icon name="checkmark-outline" />}
           onPress={() => {
             try {
@@ -248,6 +242,12 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
             } catch (e) {
               Toast.show({text1: String(e), type: 'error'});
             }
+          }}
+        />
+        <TakeButton
+          accessoryLeft={<Icon name="eye-outline" />}
+          onPress={() => {
+            trigger.value = true;
           }}
         />
       </ButtonView>
@@ -269,4 +269,5 @@ const TakeButton = styled(Button)`
   border-radius: 50px;
   border-color: white;
   margin-horizontal: 10px;
+  transform: rotate(90deg);
 `;
