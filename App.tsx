@@ -69,7 +69,7 @@ export default () => (
         <Stack.Screen
           name="Camera"
           component={CameraScreen}
-          options={{headerShown: false}}
+          options={{headerShown: false, orientation: 'portrait_up'}}
         />
         <Stack.Screen
           name="Loading"
