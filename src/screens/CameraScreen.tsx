@@ -62,7 +62,7 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
   if (device == null) {
     return <Text>camera not found</Text>;
   }
-  const format = useCameraFormat(device, []);
+  const format = useCameraFormat(device, [{videoResolution: 'max'}]);
 
   const {resize} = useResizePlugin();
   const trigger = useSharedValue(false);
@@ -213,18 +213,21 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
   );
   return !hasPermission ? null : (
     <TouchableOpacity
+      style={{flex: 1}}
       activeOpacity={1}
       onPress={event => {
         // NEED VERIFY: should test vary circumstance(android, iPhone, not galaxy ...)
         splitPosition.value = {
-          y: event.nativeEvent.pageY / Dimensions.get('screen').height,
-          x: event.nativeEvent.pageX / Dimensions.get('screen').width,
+          x: event.nativeEvent.pageY / Dimensions.get('screen').height,
+          y: event.nativeEvent.pageX / Dimensions.get('screen').width,
         };
         splitTrigger.value = true;
       }}>
       <Camera
         device={device}
-        style={{width: '100%', height: '100%'}}
+        style={{
+          flex: 1,
+        }}
         isActive={true}
         frameProcessor={frameProcessor}
         format={format}
@@ -254,7 +257,7 @@ export const CameraScreen = ({navigation}: CameraScreenProps) => {
 
 const ButtonView = styled.View`
   position: absolute;
-  bottom: 30px;
+  bottom: 20px;
   align-self: center;
   flex-direction: row;
 `;
@@ -265,6 +268,5 @@ const TakeButton = styled(Button)`
   height: 50px;
   border-radius: 50px;
   border-color: white;
-  bottom: 30px;
   margin-horizontal: 10px;
 `;
